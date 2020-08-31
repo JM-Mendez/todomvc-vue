@@ -8,6 +8,7 @@
         placeholder="What needs to be done?"
         autofocus
         autocomplete="false"
+        @keyup.enter="commitTodo"
       />
     </header>
     <section class="main">
@@ -23,6 +24,8 @@
 </template>
 
 <script>
+import { nanoid } from 'nanoid'
+
 export default {
   name: 'Todos',
   data: function() {
@@ -34,6 +37,18 @@ export default {
   computed: {
     title: function() {
       return `Mark all as ${this.selectAll ? 'active' : 'completed'}`
+    }
+  },
+  methods: {
+    commitTodo(event) {
+      const newTodo = {
+        id: nanoid(),
+        title: event.target.value,
+        completed: false
+      }
+
+      this.todoText = ''
+      this.$store.commit({ type: 'commitTodo', newTodo })
     }
   }
 }

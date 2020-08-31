@@ -22,6 +22,7 @@ export default {
       <label>
         {{ todo.title }}
       </label>
+      <button class="destroy" />
     </div>
   </li>
 </template>

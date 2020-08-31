@@ -20,9 +20,41 @@
       />
       <label html-for="toggle-all" :title="title">{{ title }}</label>
       <ul class="todo-list">
-        <TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" />
+        <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" />
       </ul>
     </section>
+    <footer v-if="!!todos.length" class="footer">
+      <span class="todo-count">
+        <strong>{{ numberOfActiveTodos }}</strong>
+        item{{ numberOfActiveTodos === 1 ? '' : 's' }} left
+      </span>
+      <ul class="filters">
+        <li>
+          <a
+            :class="{ selected: showTodos === 'all' }"
+            href="#/"
+            @click="setView('all')"
+            >All</a
+          >
+        </li>
+        <li>
+          <a
+            :class="{ selected: showTodos === 'active' }"
+            href="#/"
+            @click="setView('active')"
+            >Active</a
+          >
+        </li>
+        <li>
+          <a
+            :class="{ selected: showTodos === 'completed' }"
+            href="#/"
+            @click="setView('completed')"
+            >Completed</a
+          >
+        </li>
+      </ul>
+    </footer>
   </section>
 </template>
 
@@ -43,10 +75,13 @@ export default {
     }
   },
   computed: {
-    title: function() {
+    title() {
       return `Mark all as ${this.selectAll ? 'active' : 'completed'}`
     },
-    ...mapGetters(['todos'])
+    numberOfActiveTodos() {
+      return this.todos.filter(todo => !todo.completed).length
+    },
+    ...mapGetters(['todos', 'filteredTodos', 'showTodos'])
   },
   methods: {
     commitTodo(event) {
@@ -58,6 +93,9 @@ export default {
 
       this.todoText = ''
       this.$store.commit({ type: 'commitTodo', newTodo })
+    },
+    setView(value) {
+      this.$store.commit({ type: 'setView', value })
     }
   }
 }

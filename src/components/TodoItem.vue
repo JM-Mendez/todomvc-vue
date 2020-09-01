@@ -2,25 +2,29 @@
 export default {
   name: 'TodoItem',
   props: {
-    todo: {
-      type: Object,
+    title: {
+      type: String,
       required: true
-    }
-  },
-  data() {
-    return {
-      isChecked: false
+    },
+    completed: {
+      type: Boolean,
+      required: true
     }
   }
 }
 </script>
 
 <template>
-  <li key="todo.id" :class="{ completed: isChecked }">
+  <li :class="{ completed }">
     <div class="view">
-      <input v-model="isChecked" class="toggle" type="checkbox" />
+      <input
+        :checked="completed"
+        class="toggle"
+        type="checkbox"
+        @click="$emit('toggle-todo-state')"
+      />
       <label>
-        {{ todo.title }}
+        {{ title }}
       </label>
       <button class="destroy" />
     </div>

@@ -14,6 +14,17 @@ export default new Vuex.Store({
     },
     setView(state, { value }) {
       state.showTodos = value
+    },
+    toggleTodoState(state, { todoId }) {
+      const idxOfTodo = state.todos.findIndex(todo => todo.id === todoId)
+
+      if (idxOfTodo > -1) {
+        const todo = state.todos[idxOfTodo]
+        state.todos.splice(idxOfTodo, 1, {
+          ...todo,
+          completed: !todo.completed
+        })
+      }
     }
   },
   getters: {

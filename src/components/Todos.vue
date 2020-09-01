@@ -20,7 +20,13 @@
       />
       <label html-for="toggle-all" :title="title">{{ title }}</label>
       <ul class="todo-list">
-        <TodoItem v-for="todo in filteredTodos" :key="todo.id" :todo="todo" />
+        <TodoItem
+          v-for="todo in filteredTodos"
+          :key="todo.id"
+          :title="todo.title"
+          :completed="todo.completed"
+          @toggle-todo-state="toggleState(todo.id)"
+        />
       </ul>
     </section>
     <footer v-if="!!todos.length" class="footer">
@@ -96,6 +102,9 @@ export default {
     },
     setView(value) {
       this.$store.commit({ type: 'setView', value })
+    },
+    toggleState(todoId) {
+      this.$store.commit({ type: 'toggleTodoState', todoId })
     }
   }
 }

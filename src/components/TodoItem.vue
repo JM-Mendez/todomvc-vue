@@ -26,7 +26,7 @@ export default {
       <label>
         {{ title }}
       </label>
-      <button class="destroy" />
+      <button class="destroy" @click="$emit('destroy-todo')" />
     </div>
   </li>
 </template>

@@ -26,6 +26,7 @@
           :title="todo.title"
           :completed="todo.completed"
           @toggle-todo-state="toggleState(todo.id)"
+          @destroy-todo="destroyTodo(todo.id)"
         />
       </ul>
     </section>
@@ -114,6 +115,9 @@ export default {
     },
     removeCompleted() {
       this.$store.commit('removeCompleted')
+    },
+    destroyTodo(todoId) {
+      this.$store.commit({ type: 'destroyTodo', todoId })
     }
   }
 }

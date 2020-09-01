@@ -60,6 +60,12 @@
           >
         </li>
       </ul>
+      <button
+        v-if="numberOfActiveTodos < todos.length"
+        class="clear-completed"
+        @click="removeCompleted"
+        >Clear Completed</button
+      >
     </footer>
   </section>
 </template>
@@ -105,6 +111,9 @@ export default {
     },
     toggleState(todoId) {
       this.$store.commit({ type: 'toggleTodoState', todoId })
+    },
+    removeCompleted() {
+      this.$store.commit('removeCompleted')
     }
   }
 }

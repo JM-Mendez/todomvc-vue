@@ -31,6 +31,13 @@ export default new Vuex.Store({
     },
     destroyTodo(state, { todoId }) {
       state.todos = state.todos.filter(todo => todo.id !== todoId)
+    },
+    toggleAll(state, { completeAllTodos }) {
+      console.log({ completeAllTodos })
+      state.todos = state.todos.map(todo => ({
+        ...todo,
+        completed: completeAllTodos
+      }))
     }
   },
   getters: {

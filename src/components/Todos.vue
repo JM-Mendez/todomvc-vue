@@ -14,11 +14,13 @@
     <section class="main">
       <input
         id="toggle-all"
-        v-model="toggleSelectAll"
+        :checked="allCompleted"
         class="toggle-all"
         type="checkbox"
       />
-      <label html-for="toggle-all" :title="title">{{ title }}</label>
+      <label html-for="toggle-all" :title="title" @click="toggleAll">{{
+        title
+      }}</label>
       <ul class="todo-list">
         <TodoItem
           v-for="todo in filteredTodos"
@@ -83,13 +85,15 @@ export default {
   },
   data: function() {
     return {
-      todoText: '',
-      toggleSelectAll: false
+      todoText: ''
     }
   },
   computed: {
+    allCompleted() {
+      return this.todos.length > 0 && this.numberOfActiveTodos === 0
+    },
     title() {
-      return `Mark all as ${this.selectAll ? 'active' : 'completed'}`
+      return `Mark all as ${this.allCompleted ? 'active' : 'completed'}`
     },
     numberOfActiveTodos() {
       return this.todos.filter(todo => !todo.completed).length
@@ -118,6 +122,12 @@ export default {
     },
     destroyTodo(todoId) {
       this.$store.commit({ type: 'destroyTodo', todoId })
+    },
+    toggleAll() {
+      this.$store.commit({
+        type: 'toggleAll',
+        completeAllTodos: !this.allCompleted
+      })
     }
   }
 }
